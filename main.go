@@ -463,7 +463,8 @@ func setupReconcilers(ctx context.Context, mgr ctrl.Manager, watchNamespaces map
 	clusterCache, err := clustercache.SetupWithManager(ctx, mgr, clustercache.Options{
 		SecretClient: secretCachingClient,
 		Cache: clustercache.CacheOptions{
-			Indexes: []clustercache.CacheOptionsIndex{clustercache.NodeProviderIDIndex},
+			DefaultTransform: cache.TransformStripManagedFields(),
+			Indexes:          []clustercache.CacheOptionsIndex{clustercache.NodeProviderIDIndex},
 		},
 		Client: clustercache.ClientOptions{
 			QPS:       clusterCacheClientQPS,

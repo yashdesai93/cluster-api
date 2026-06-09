@@ -395,6 +395,7 @@ func setupReconcilers(ctx context.Context, mgr ctrl.Manager) {
 	clusterCache, err := clustercache.SetupWithManager(ctx, mgr, clustercache.Options{
 		SecretClient: secretCachingClient,
 		Cache: clustercache.CacheOptions{
+			DefaultTransform: cache.TransformStripManagedFields(),
 			// Only cache kubeadm static pods
 			ByObject: map[client.Object]cache.ByObject{
 				&corev1.Pod{}: {
